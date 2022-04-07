@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: Padding(
               padding: EdgeInsets.all(35.0),
               child: Text(
-                "SHAKE YOUR PHONE\n OR TAP ON THE SCREEN",
+                "TAP ON THE SCREEN",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,
