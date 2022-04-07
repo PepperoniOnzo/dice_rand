@@ -1,6 +1,7 @@
 import 'dart:math';
 
-import 'package:dice_rand/widgets/dice.dart';
+import 'package:dice_rand/widgets/circle_anim.dart';
+import 'package:dice_rand/widgets/dice_anim.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,64 +14,41 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   static const animationDuration = Duration(milliseconds: 500);
 
-  late final AnimationController _controller = AnimationController(
+  late final AnimationController _controllerDice = AnimationController(
     vsync: this,
     duration: animationDuration,
     reverseDuration: animationDuration,
   );
 
-  late final Animation<double> _animationSpining = Tween<double>(
-    begin: 0,
-    end: 1,
-  ).animate(
-    CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeIn,
-    ),
+  late final AnimationController _controllerCircle = AnimationController(
+    vsync: this,
+    duration: Duration(milliseconds: 100),
+    reverseDuration: animationDuration,
   );
-
-  late final Animation<double> _animationOpacity = Tween<double>(
-    begin: 1,
-    end: 0,
-  ).animate(
-    CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeIn,
-    ),
-  );
-
-  late final Animation<double> _animationSize = Tween<double>(
-    begin: 1,
-    end: 0,
-  ).animate(
-    CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeIn,
-    ),
-  );
-
 
   Random random = Random();
-  int _diceNumber = 2;
+  int _diceNumber = 1;
 
   @override
   void initState() {
-    _controller.addStatusListener((status) {
+    _controllerDice.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
           _diceNumber = random.nextInt(6) + 1;
         });
         Future.delayed(const Duration(milliseconds: 250), () {
-          _controller.reverse();
+          _controllerDice.reverse();
         });
       }
     });
+
     super.initState();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controllerCircle.dispose();
+    _controllerDice.dispose();
     super.dispose();
   }
 
@@ -81,23 +59,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         behavior: HitTestBehavior.opaque,
         onTap: (() {
           setState(() {
-            _controller.forward();
+            _controllerCircle.forward();
+            _controllerDice.forward();
           });
         }),
         child: Column(children: [
           Expanded(
-            flex: 9,
-            child: FadeTransition(
-              opacity: _animationOpacity,
-              child: RotationTransition(
-                turns: _animationSpining,
-                child: ScaleTransition(
-                  scale: _animationSize,
-                  child: Dice(diceBorder: _diceNumber),
-                ),
-              ),
-            ),
-          ),
+              flex: 9,
+              child: Stack(
+                children: [
+                  DiceAnim(
+                      diceBorder: _diceNumber, controllerDice: _controllerDice),
+                  CircleAnim(
+                    controller: _controllerCircle,
+                  )
+                ],
+              )),
           const Expanded(
             flex: 2,
             child: Padding(
