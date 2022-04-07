@@ -1,4 +1,3 @@
-import 'package:dice_rand/data/colors.dart';
 import 'package:flutter/material.dart';
 
 class Circles extends CustomPainter {
@@ -23,18 +22,18 @@ class Circles extends CustomPainter {
     double circleRadius = MediaQuery.of(context).size.width;
     switch (type) {
       case 1:
-        double circleRadius = MediaQuery.of(context).size.width * 0.15;
+        circleRadius = MediaQuery.of(context).size.width * 0.15;
         canvas.drawCircle(const Offset(0, 0), circleRadius, painterFilled);
         break;
       case 2:
         painterBorder.strokeWidth = 30;
-        double circleRadius = MediaQuery.of(context).size.width * 0.2;
+        circleRadius = MediaQuery.of(context).size.width * 0.2;
         canvas.drawCircle(const Offset(0, 0), circleRadius, painterBorder);
         break;
       case 3:
         painterBorder.strokeWidth = 10;
 
-        double circleRadius = MediaQuery.of(context).size.width * 0.27;
+        circleRadius = MediaQuery.of(context).size.width * 0.27;
         canvas.drawCircle(const Offset(0, 0), circleRadius, painterBorder);
         break;
       default:

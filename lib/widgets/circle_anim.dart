@@ -23,13 +23,13 @@ class CircleAnim extends StatefulWidget {
 class _CircleAnimState extends State<CircleAnim> with TickerProviderStateMixin {
   late final AnimationController _controllerCircleSecond = AnimationController(
     vsync: this,
-    duration: Duration(milliseconds: 75),
+    duration: const Duration(milliseconds: 75),
   );
 
   late final AnimationController _controllerCircleThird = AnimationController(
     vsync: this,
-    duration: Duration(milliseconds: 50),
-    reverseDuration: Duration(milliseconds: 150),
+    duration: const Duration(milliseconds: 50),
+    reverseDuration: const Duration(milliseconds: 150),
   );
 
   late final Animation<double> _animationOpacitySecond = Tween<double>(
@@ -104,7 +104,7 @@ class _CircleAnimState extends State<CircleAnim> with TickerProviderStateMixin {
             ),
           ),
           FadeTransition(
-            opacity: _controllerCircleThird,
+            opacity: _animationOpacityThird,
             child: CustomPaint(
               painter: Circles(context, 3),
             ),

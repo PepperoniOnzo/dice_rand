@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   late final AnimationController _controllerCircle = AnimationController(
     vsync: this,
-    duration: Duration(milliseconds: 100),
+    duration: const Duration(milliseconds: 100),
     reverseDuration: animationDuration,
   );
 
