@@ -10,18 +10,67 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  static const animationDuration = Duration(milliseconds: 500);
+
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: animationDuration,
+    reverseDuration: animationDuration,
+  );
+
+  late final Animation<double> _animationSpining = Tween<double>(
+    begin: 0,
+    end: 1,
+  ).animate(
+    CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    ),
+  );
+
+  late final Animation<double> _animationOpacity = Tween<double>(
+    begin: 1,
+    end: 0,
+  ).animate(
+    CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    ),
+  );
+
+  late final Animation<double> _animationSize = Tween<double>(
+    begin: 1,
+    end: 0,
+  ).animate(
+    CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    ),
+  );
+
+
   Random random = Random();
-  int _diceNumber = 1;
+  int _diceNumber = 2;
 
   @override
   void initState() {
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          _diceNumber = random.nextInt(6) + 1;
+        });
+        Future.delayed(const Duration(milliseconds: 250), () {
+          _controller.reverse();
+        });
+      }
+    });
     super.initState();
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -32,13 +81,22 @@ class _HomePageState extends State<HomePage>
         behavior: HitTestBehavior.opaque,
         onTap: (() {
           setState(() {
-            _diceNumber = random.nextInt(6) + 1;
+            _controller.forward();
           });
         }),
         child: Column(children: [
           Expanded(
             flex: 9,
-            child: Dice(diceBorder: _diceNumber),
+            child: FadeTransition(
+              opacity: _animationOpacity,
+              child: RotationTransition(
+                turns: _animationSpining,
+                child: ScaleTransition(
+                  scale: _animationSize,
+                  child: Dice(diceBorder: _diceNumber),
+                ),
+              ),
+            ),
           ),
           const Expanded(
             flex: 2,
