@@ -1,16 +1,11 @@
-# dice_rand
+# Dice
 
-A new Flutter project.
+## Simple project with animations
 
-## Getting Started
+In this project randomly generated number from 1 to 6 is displayed on the screen as a dice.
 
-This project is a starting point for a Flutter application.
+Dices are animated by changing opacity and size, also spinning. All dices and circle are drawn by CustomPainter.
 
-A few resources to get you started if this is your first Flutter project:
+## Example
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://github.com/PepperoniOnzo/readme_assets/blob/master/dice_rand/main_anim.gif?raw=true" width="400" height="800" />
